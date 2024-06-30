@@ -6,64 +6,60 @@
 
     <groupId>per.tz</groupId>
     <artifactId>TZ-RPC</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-
-    <!-- Spring Boot 父项目 -->
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+    <modules>
+        <module>tzrpc-starter</module>
+    </modules>
 
     <properties>
         <!-- 编码和 Java 版本 -->
         <java.version>8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <springboot-web.version>2.7.5</springboot-web.version>
+        <druid.version>1.2.6</druid.version>
+        <mybatisplus.version>3.4.3.4</mybatisplus.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
+        <zookeeper.version>3.6.0</zookeeper.version>
     </properties>
-
-    <!-- 全局统一依赖 -->
-    <dependencies>
-        <!-- SpringBoot Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.7.5</version>
-        </dependency>
-
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-        </dependency>
-
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <!-- SpringBoot Web -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot-web.version}</version>
+            </dependency>
+
             <!-- Druid 数据源 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
-                <version>1.2.6</version>
+                <version>${druid.version}</version>
             </dependency>
 
             <!-- Mybatis Plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.4.3.4</version>
+                <version>${mybatisplus.version}</version>
             </dependency>
 
             <!-- MySQL -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.28</version>
+                <version>${mysql-connector.version}</version>
             </dependency>
 
+            <!-- Zookeeper -->
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
