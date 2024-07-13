@@ -31,32 +31,32 @@ public class TzrpcAutoRegister implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception{
-        List<ServiceConfig<?, ?>> serviceConfig = loadServiceConfig();
+        List<TzrpcService<?, ?>> tzrpcService = loadTzrpcService();
         // 启动 tzrpc
-        tzrpcBootstrap.setServices(serviceConfig)
-                .protocol(ProtocolEnum.JDK)
+        tzrpcBootstrap.setServices(tzrpcService)
+                .setProtocol(ProtocolEnum.JDK)
                 .start();
     }
 
-    private List<ServiceConfig<?, ?>> loadServiceConfig() {
+    private List<TzrpcService<?, ?>> loadTzrpcService() {
         // 加载所有携带 @TzrpcProvider 注解的 Bean，并打印加载结果信息
         Map<String, Object> providers = applicationContext.getBeansWithAnnotation(TzrpcProvider.class);
         log.info("TzrpcAutoRegister.run 加载 Provider 列表 --> ");
         // 对所有 Provider，注册到 Tzrpc 中去
         // map.key = 需要被代理的接口，为了防止一个接口被多个类实现
-        Map<Class<?>, ServiceConfig<?, ?>> services = new HashMap<>();
+        Map<Class<?>, TzrpcService<?, ?>> services = new HashMap<>();
         for(Object provider : providers.values()) {
             TzrpcProvider annotation = provider.getClass().getAnnotation(TzrpcProvider.class);
             Class<?>[] interfs = annotation.proxy();
             // 每一个需要被代理的接口，都注册到 Tzrpc 中去
             for(Class<?> interf : interfs) {
                 log.info(TextUtil.tab + interf.getName() + " --> " + provider.getClass().getName());
-                ServiceConfig<?, Object> serviceConfig = new ServiceConfig<>(interf, provider);
+                TzrpcService<?, Object> tzrpcService = new TzrpcService<>(interf, provider);
                 if(services.get(interf) != null) {
                     log.error("TzrpcAutoRegister.run --> 注册 TZRPC 服务失败");
                     throw new TzrpcException("TzrpcAutoRegister.run register fail", "接口 " + interf.getName() + " 存在重复的实现 Provider");
                 }
-                services.put(interf, serviceConfig);
+                services.put(interf, tzrpcService);
             }
         }
         return new ArrayList<>(services.values());

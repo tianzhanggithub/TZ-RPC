@@ -1,6 +1,6 @@
 package tzrpc.framework.core.registry.core;
 
-import tzrpc.framework.core.start.ServiceConfig;
+import tzrpc.framework.core.start.TzrpcService;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface Registry{
      */
     void maintainMeta() throws Exception;
 
-    void registerProvider(List<ServiceConfig<?, ?>> services) throws Exception ;
+    void registerProvider(List<TzrpcService<?, ?>> services, String hostIp, int port) throws Exception ;
 //
 //    void registerConsumer();
 }
