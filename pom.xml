@@ -28,6 +28,7 @@
         <mysql-connector.version>8.0.28</mysql-connector.version>
         <zookeeper.version>3.6.0</zookeeper.version>
         <netty.version>4.1.94.Final</netty.version>
+        <commons-lang3>3.11</commons-lang3>
     </properties>
 
     <dependencyManagement>
@@ -94,25 +95,31 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.22</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
 
     <build>
         <plugins>
-            <!-- 插件管理 -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
             </plugin>
         </plugins>
     </build>
