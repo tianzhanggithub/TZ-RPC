@@ -12,13 +12,6 @@
     <artifactId>tzrpc-client</artifactId>
 
     <dependencies>
-        <!-- RPC 框架 -->
-        <dependency>
-            <groupId>per.tz</groupId>
-            <artifactId>tzrpc-framework</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
         <!-- API 模块 -->
         <dependency>
             <groupId>per.tz</groupId>
@@ -27,4 +20,22 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- 插件管理 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

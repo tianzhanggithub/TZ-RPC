@@ -21,6 +21,8 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <springboot-web.version>2.7.5</springboot-web.version>
+        <springboot-core.version>2.7.5</springboot-core.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.6</druid.version>
         <mybatisplus.version>3.4.3.4</mybatisplus.version>
         <mysql-connector.version>8.0.28</mysql-connector.version>
@@ -30,11 +32,25 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- SpringBoot 核心包，不包含 web 组件 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot-core.version}</version>
+            </dependency>
+
             <!-- SpringBoot Web -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${springboot-web.version}</version>
+            </dependency>
+
+            <!-- JSON 就用 ali 的 fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
 
             <!-- Druid 数据源 -->
