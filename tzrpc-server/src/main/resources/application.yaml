@@ -1,0 +1,7 @@
+tzrpc:
+  registry:
+    type: Zookeeper
+    zookeeper:
+      address: 127.0.0.1
+      port: 2181
+      timeout: 5000

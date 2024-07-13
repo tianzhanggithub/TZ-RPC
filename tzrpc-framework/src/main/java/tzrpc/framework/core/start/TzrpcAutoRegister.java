@@ -1,27 +1,26 @@
-package tzrpc.framework.core;
+package tzrpc.framework.core.start;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import tzrpc.framework.annotation.TzrpcProvider;
 import tzrpc.framework.common.exception.TzrpcException;
-import tzrpc.framework.common.util.CollectionUtil;
 import tzrpc.framework.common.util.TextUtil;
-import tzrpc.framework.core.ServiceConfig;
-import tzrpc.framework.core.protocol.ProtocolConfig;
 import tzrpc.framework.core.protocol.ProtocolEnum;
-import tzrpc.framework.core.registry.RegistryConfig;
-import tzrpc.framework.core.registry.RegistryEnum;
 
 import java.util.*;
 
+/**
+ * SpringBoot 程序启动完毕时，利用 CommandLineRunner.run 加载 RPC 服务接口列表
+ */
 @Slf4j
 @Component
 public class TzrpcAutoRegister implements CommandLineRunner {
+
+    @Autowired
+    private TzrpcBootstrap tzrpcBootstrap;
 
     private final ApplicationContext applicationContext;
 
@@ -33,7 +32,10 @@ public class TzrpcAutoRegister implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception{
         List<ServiceConfig<?, ?>> serviceConfig = loadServiceConfig();
-        start(serviceConfig);
+        // 启动 tzrpc
+        tzrpcBootstrap.setServices(serviceConfig)
+                .protocol(ProtocolEnum.JDK)
+                .start();
     }
 
     private List<ServiceConfig<?, ?>> loadServiceConfig() {
@@ -60,12 +62,4 @@ public class TzrpcAutoRegister implements CommandLineRunner {
         return new ArrayList<>(services.values());
     }
 
-    private void start(List<ServiceConfig<?, ?>> serviceConfig) throws Exception{
-        TzrpcBootstrap.getInstance()
-                .applicationName("test-tzrpc-server")
-                .registry(new RegistryConfig(RegistryEnum.ZOOKEEPER, "127.0.0.1:2181"))
-                .protocol(new ProtocolConfig(ProtocolEnum.JDK))
-                .publish(serviceConfig)
-                .start();
-    }
 }

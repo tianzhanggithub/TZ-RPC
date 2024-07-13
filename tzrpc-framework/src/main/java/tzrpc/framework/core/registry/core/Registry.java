@@ -1,6 +1,8 @@
-package tzrpc.framework.core.registry;
+package tzrpc.framework.core.registry.core;
 
-import org.apache.zookeeper.KeeperException;
+import tzrpc.framework.core.start.ServiceConfig;
+
+import java.util.List;
 
 public interface Registry{
 
@@ -11,7 +13,7 @@ public interface Registry{
      */
     void maintainMeta() throws Exception;
 
-//    void registerProvider();
+    void registerProvider(List<ServiceConfig<?, ?>> services) throws Exception ;
 //
 //    void registerConsumer();
 }
