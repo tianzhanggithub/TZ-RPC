@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   tzrpc.framework.core.start.TzrpcBootstrapAutoConfiguration,\
-  tzrpc.framework.core.registry.zookeeper.ZookeeperRegistryAutoConfiguration
+  tzrpc.framework.core.registry.RegistryAutoConfiguration,\
+  tzrpc.framework.core.clientproxy.TzrpcClientProxyAutoConfiguration

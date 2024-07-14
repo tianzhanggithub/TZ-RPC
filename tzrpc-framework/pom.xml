@@ -43,6 +43,15 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- 修复  NoClassDefFoundError: com/sun/tools/javac/processing/JavacProcessingEnvironment -->
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>1.8</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

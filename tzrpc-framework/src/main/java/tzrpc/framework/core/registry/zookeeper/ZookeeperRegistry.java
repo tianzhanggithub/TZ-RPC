@@ -5,11 +5,13 @@ import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.ACL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tzrpc.framework.core.start.TzrpcService;
+import tzrpc.framework.common.exception.TzrpcException;
+import tzrpc.framework.core.serviceproxy.ServiceProxy;
 import tzrpc.framework.core.registry.core.Registry;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 @Slf4j
@@ -56,8 +58,8 @@ public class ZookeeperRegistry implements Registry{
     }
 
     @Override
-    public void registerProvider(List<TzrpcService<?, ?>> services, String hostIp, int port) throws Exception {
-        for(TzrpcService<?, ?> service : Objects.requireNonNull(services)) {
+    public void registerService(List<ServiceProxy<?, ?>> services, String hostIp, int port) throws Exception {
+        for(ServiceProxy<?, ?> service : Objects.requireNonNull(services)) {
             String interf = service.getInterf().getName();
             // 先创建 接口 持久节点
             String interfPath = config.getProviderPath() + "/" + interf;
@@ -66,6 +68,23 @@ public class ZookeeperRegistry implements Registry{
             // 然后创建 具体服务提供者 临时节点
             createNodeIfNotExistSimple(servicePath, CreateMode.EPHEMERAL);
         }
-        log.info("ZookeeperRegistry.registerProvider --> 向注册中心注册 RPC 服务列表完成; 本机地址 = {}:{};", hostIp, port);
+        log.info("ZookeeperRegistry.registerProvider --> 向注册中心注册 RPC 服务列表完毕; 本机地址 = {}:{};", hostIp, port);
+    }
+
+    @Override
+    public String discoverService(String interf) throws Exception {
+        String interfPath = config.getProviderPath() + "/" + interf;
+        if(zooKeeper.exists(interfPath, null) == null) {
+            log.error("ZookeeperRegistry.discoverService --> 没有找到任何有效的服务根节点");
+            throw new TzrpcException("discover fail", "没有找到任何有效的服务根节点");
+        }
+        List<String> provider = zooKeeper.getChildren(interfPath, null);
+        if(provider == null || provider.size() == 0) {
+            log.error("ZookeeperRegistry.discoverService --> 没有找到任何有效的服务提供者: " + interf);
+            throw new TzrpcException("discover fail", "没有找到任何有效的服务提供者: " + interf);
+        }
+        // TODO... 假装有负载均衡，实际这里随机一个
+        int sn = new Random().nextInt(provider.size());
+        return provider.get(sn);
     }
 }

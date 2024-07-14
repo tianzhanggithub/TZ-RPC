@@ -1,0 +1,12 @@
+server:
+  port: 8001
+
+tzrpc:
+  appName: "test-tzrpc-client"
+  registry:
+    type: Zookeeper
+    zookeeper:
+      address: 127.0.0.1
+      port: 2181
+      timeout: 5000
+
