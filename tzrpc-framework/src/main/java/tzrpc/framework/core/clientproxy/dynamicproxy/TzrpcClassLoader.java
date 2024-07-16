@@ -1,4 +1,4 @@
-package tzrpc.framework.core.clientproxy;
+package tzrpc.framework.core.clientproxy.dynamicproxy;
 
 
 import lombok.extern.slf4j.Slf4j;

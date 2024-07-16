@@ -2,10 +2,9 @@ package tzrpc.framework.core.clientproxy;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
-import javax.annotation.PostConstruct;
+import tzrpc.framework.core.clientproxy.dynamicproxy.TzrpcServiceCallProxyHandler;
 
 @Configuration
-@Import({TzrpcServiceCallProxyHandler.class})
+@Import({TzrpcAutoDiscover.class, TzrpcServiceCallProxyHandler.class})
 public class TzrpcClientProxyAutoConfiguration {
 }

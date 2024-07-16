@@ -1,4 +1,4 @@
-package tzrpc.framework.core.clientproxy;
+package tzrpc.framework.core.clientproxy.dynamicproxy;
 
 
 import java.lang.reflect.Method;

@@ -2,6 +2,7 @@ package tzrpc.framework.core.registry.core;
 
 import tzrpc.framework.core.serviceproxy.ServiceProxy;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 
 public interface Registry{
@@ -28,5 +29,5 @@ public interface Registry{
      * @param interf 需要的接口全类名
      * @return       服务提供者的地址
      */
-    String discoverService(String interf) throws Exception;
+    InetSocketAddress discoverService(String interf) throws Exception;
 }

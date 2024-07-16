@@ -1,4 +1,4 @@
-package tzrpc.framework.core.clientproxy;
+package tzrpc.framework.core.clientproxy.dynamicproxy;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +55,7 @@ public class TzrpcDynamicProxy {
         task.call();
         manager.close();
 
-        // 4. 将 .class 文件中的内容动态加载到 JVM 中
-        // 该部分在自定义的 ClassLoader 中实现
-
+        // 4. 将 .class 文件中的内容动态加载到 JVM 中，该部分在自定义的 ClassLoader 中实现
         // 5. 返回被代理后的代理对象
         Class<?> proxyClass = classLoader.findClass(proxyPrefix + sn);  // 通过自定义的 ClassLoader 找到对应的代理类
         Constructor<?> constructor = proxyClass.getConstructor(TzrpcProxyHandler.class);

@@ -8,8 +8,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "tzrpc")
 public class TzrpcBootstrapConfig{
 
-    private String appName = "tzrpc-application";
-    @Value("${server.port:8863}")
-    private int port;
+    private String appName = "tzrpc-application";    // 应用名称
+    private int port = 8863;                         // RPC 应用端口
+    private int eventLoopBossThread = 2;             // eventLoop boss 部分的线程数
+    private int eventLoopWorkerThread = 10;          // eventLoop worker 部分的线程数
 
 }

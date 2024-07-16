@@ -1,4 +1,4 @@
-package tzrpc.framework.core.start;
+package tzrpc.framework.core.serviceproxy;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import tzrpc.framework.common.exception.TzrpcException;
 import tzrpc.framework.common.util.TextUtil;
 import tzrpc.framework.core.protocol.ProtocolEnum;
 import tzrpc.framework.core.serviceproxy.ServiceProxy;
+import tzrpc.framework.core.start.TzrpcBootstrap;
 
 import java.util.*;
 

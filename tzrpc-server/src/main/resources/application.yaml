@@ -1,6 +1,3 @@
-server:
-  port: 8000
-
 tzrpc:
   appName: "test-tzrpc-application"
   registry:

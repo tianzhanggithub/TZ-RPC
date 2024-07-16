@@ -9,6 +9,8 @@ import tzrpc.framework.common.exception.TzrpcException;
 import tzrpc.framework.core.serviceproxy.ServiceProxy;
 import tzrpc.framework.core.registry.core.Registry;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -72,7 +74,7 @@ public class ZookeeperRegistry implements Registry{
     }
 
     @Override
-    public String discoverService(String interf) throws Exception {
+    public InetSocketAddress discoverService(String interf) throws Exception {
         String interfPath = config.getProviderPath() + "/" + interf;
         if(zooKeeper.exists(interfPath, null) == null) {
             log.error("ZookeeperRegistry.discoverService --> 没有找到任何有效的服务根节点");
@@ -85,6 +87,10 @@ public class ZookeeperRegistry implements Registry{
         }
         // TODO... 假装有负载均衡，实际这里随机一个
         int sn = new Random().nextInt(provider.size());
-        return provider.get(sn);
+        String address = provider.get(sn);
+        String[] addrSplit;
+        if(address == null || (addrSplit = address.split(":")).length != 2)
+            throw new TzrpcException("find provider fail", "无效的服务提供方地址: " + address);
+        return new InetSocketAddress(addrSplit[0], Integer.parseInt(addrSplit[1]));
     }
 }

@@ -1,10 +1,8 @@
-package tzrpc.framework.core.clientproxy;
+package tzrpc.framework.core.clientproxy.dynamicproxy;
 
 import lombok.extern.slf4j.Slf4j;
 import tzrpc.framework.common.exception.TzrpcException;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
+import tzrpc.framework.core.clientproxy.dynamicproxy.TzrpcDynamicProxy;
 
 @Slf4j
 public class ClientProxyGenerator {
