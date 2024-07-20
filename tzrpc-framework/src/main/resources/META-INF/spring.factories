@@ -2,4 +2,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   tzrpc.framework.core.start.TzrpcBootstrapAutoConfiguration,\
   tzrpc.framework.core.registry.RegistryAutoConfiguration,\
   tzrpc.framework.core.clientproxy.TzrpcClientProxyAutoConfiguration,\
-  tzrpc.framework.core.serviceproxy.TzrpcServerProxyAutoConfiguration
+  tzrpc.framework.core.serviceproxy.TzrpcServerProxyAutoConfiguration,\
+  tzrpc.framework.core.communicate.CommunicateAutoConfiguration

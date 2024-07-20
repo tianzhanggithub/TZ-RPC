@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 import tzrpc.framework.annotation.TzrpcProvider;
 import tzrpc.framework.common.exception.TzrpcException;
 import tzrpc.framework.common.util.TextUtil;
-import tzrpc.framework.core.protocol.ProtocolEnum;
-import tzrpc.framework.core.serviceproxy.ServiceProxy;
+import tzrpc.framework.core.enumtype.ProtocolEnum;
 import tzrpc.framework.core.start.TzrpcBootstrap;
 
 import java.util.*;
@@ -36,7 +35,7 @@ public class TzrpcAutoRegister implements CommandLineRunner {
         List<ServiceProxy<?, ?>> serviceProxy = loadServiceProxy();
         // 启动 tzrpc
         tzrpcBootstrap.setServiceProxy(serviceProxy)
-                .setProtocol(ProtocolEnum.JDK)
+                .setProtocol(ProtocolEnum.TZRPC)
                 .start();
     }
 

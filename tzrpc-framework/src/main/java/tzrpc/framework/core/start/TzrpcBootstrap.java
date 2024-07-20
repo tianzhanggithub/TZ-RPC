@@ -1,18 +1,11 @@
 package tzrpc.framework.core.start;
 
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tzrpc.framework.common.exception.TzrpcException;
 import tzrpc.framework.common.util.NetUtil;
-import tzrpc.framework.core.protocol.ProtocolEnum;
+import tzrpc.framework.core.enumtype.ProtocolEnum;
 import tzrpc.framework.core.registry.core.Registry;
 import tzrpc.framework.core.serviceproxy.ServiceProxy;
 
@@ -64,41 +57,6 @@ public class TzrpcBootstrap {
         this.registry.maintainMeta();
         // 2. 向注册中心 注册所有服务，暴露地址为本应用服务器地址
         this.registry.registerService(new ArrayList<>(this.serviceProxy.values()), NetUtil.getIp(), bootstrapConfig.getPort());
-        // 3. 启动 Netty 服务器
-        startNetty();
-    }
-
-    // 启动 Netty 服务
-    private void startNetty() {
-        log.info("TzrpcBootstrap.startNetty --> 启动 Netty 服务");
-        // 1. 创建 eventLoop，boss 只负责处理请求，worker 执行具体任务
-        EventLoopGroup boss = new NioEventLoopGroup(bootstrapConfig.getEventLoopWorkerThread());
-        EventLoopGroup worker = new NioEventLoopGroup(bootstrapConfig.getEventLoopWorkerThread());
-        try {
-            // 创建一个引导程序
-            ServerBootstrap serverBootstrap = new ServerBootstrap();
-            // 配置 Netty 服务器
-            serverBootstrap = serverBootstrap.group(boss, worker)
-                    .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            // 核心，需要添加很多入站和出站的 Handler
-                            socketChannel.pipeline().addLast(null);
-                        }
-                    });
-            ChannelFuture channelFuture = serverBootstrap.bind(bootstrapConfig.getPort()).sync();
-            channelFuture.channel().closeFuture().sync();
-        } catch(Exception e) {
-            throw new TzrpcException("netty fail", e.getMessage());
-        } finally {
-            try {
-                boss.shutdownGracefully().sync();
-                worker.shutdownGracefully().sync();
-            } catch(Exception e) {
-                throw new TzrpcException("netty shutdown fail", e.getMessage());
-            }
-        }
     }
 
     // 给定一个 api 接口，通过注册中心拿到一个可用的 服务提供者地址

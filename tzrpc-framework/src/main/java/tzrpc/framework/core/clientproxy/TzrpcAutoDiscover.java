@@ -9,6 +9,7 @@ import tzrpc.framework.annotation.TzrpcAutowired;
 import tzrpc.framework.common.exception.TzrpcException;
 import tzrpc.framework.core.clientproxy.dynamicproxy.ClientProxyGenerator;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.*;
 
 @Slf4j
@@ -24,6 +25,7 @@ public class TzrpcAutoDiscover implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        log.info("TzrpcAutoDiscover.run --> 开始自动生成 @TzrpcAutowired 远程代理对象");
         String[] beanNames = applicationContext.getBeanDefinitionNames();
         for(String beanName : beanNames) {
             Object bean = applicationContext.getBean(beanName);

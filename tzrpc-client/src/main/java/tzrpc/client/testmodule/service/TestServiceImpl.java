@@ -17,7 +17,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void meeting() {
-        log.info("我是 client，我来跟你打招呼");
+        log.info("我是 client，我来跟你打招呼~~~~~");
         sayHelloService.sayHello();
     }
 
